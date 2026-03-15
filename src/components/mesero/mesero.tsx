@@ -16,12 +16,12 @@ const Mesero: React.FC = () => {
     bebidas: [
       { id: 1, nombre: "Agua de Horchata", precio: 20 },
       { id: 2, nombre: "Refresco", precio: 25 },
-      { id: 3, nombre: "Cerveza", precio: 40 },
+      { id: 3, nombre: "Cerveza", precio: 60 },
     ],
     botanas: [
       { id: 1, nombre: "Papas Fritas", precio: 30 },
       { id: 2, nombre: "Nachos", precio: 45 },
-      { id: 3, nombre: "Alitas", precio: 60 },
+      { id: 3, nombre: "Alitas", precio: 80 },
     ],
   };
 

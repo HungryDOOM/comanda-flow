@@ -18,7 +18,7 @@ const NavCategories: React.FC<NavCategoriesProps> = ({ setCategoria }) => {
           height: "100vh",
           width: 200,
           bgcolor: "background.paper",
-          boxShadow: 3,
+          boxShadow: 4,
           p: 2,
         }}
       >
