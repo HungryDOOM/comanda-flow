@@ -1,0 +1,1 @@
+export type Categoria = "platillos" | "bebidas" | "botanas";

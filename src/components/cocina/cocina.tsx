@@ -28,7 +28,7 @@ const pedidos: Pedido[] = [
 const Cocina: React.FC = () => {
   const theme = useTheme();
   return (
-    <Box sx={{ p: 3, backgroundColor: theme.palette.background.default }}>
+    <Box sx={{ p: 5, backgroundColor: theme.palette.background.default, top: 64 }}>
       <Typography variant="h4" gutterBottom>
         Órdenes en Cocina
       </Typography>
