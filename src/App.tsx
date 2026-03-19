@@ -1,11 +1,12 @@
 // App.tsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Typography, Box } from "@mui/material";
-import Cocina from "./components/cocina/cocina";
-import Mesero from "./components/mesero/mesero";
+import { Box } from "@mui/material";
+import Cocina from "./pages/cocina/cocina";
+import Mesero from "./pages/mesero/mesero";
 import { useTheme } from "@mui/material/styles";
 import MainNavbar from "./components/NavBar/MainNavBar";
+import Caja from "./pages/caja/caja";
 
 const Home: React.FC = () => {
   const theme = useTheme();
@@ -34,7 +35,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cocina" element={<Cocina />} />
-          <Route path="/caja" element={<Typography variant="h4" align="center" mt={8}>Vista de Caja</Typography>} />
+          <Route path="/caja" element={<Caja />} />
           <Route path="/mesero" element={<Mesero />} />
         </Routes>
       </Box>

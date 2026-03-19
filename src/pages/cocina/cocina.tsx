@@ -1,16 +1,6 @@
 // Cocina.tsx
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-  Button,
-  List,
-  ListItem,
-  Box,
-  Stack,
-} from "@mui/material";
+import { Card, CardContent, CardActions, Typography, Button, List, ListItem, Box, Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 interface Pedido {
