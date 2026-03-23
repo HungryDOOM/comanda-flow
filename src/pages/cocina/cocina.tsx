@@ -1,22 +1,21 @@
 // Cocina.tsx
-import React from "react";
-import { Card, CardContent, CardActions, Typography, Button, List, ListItem, Box, Stack } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Typography, Box, Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-
-interface Pedido {
-  id: number;
-  mesa: number;
-  items: string[];
-}
-
-const pedidos: Pedido[] = [
-  { id: 1, mesa: 5, items: ["Tacos al pastor", "Agua de horchata"] },
-  { id: 2, mesa: 2, items: ["Hamburguesa", "Papas fritas", "Refresco"] },
-  { id: 3, mesa: 8, items: ["Ensalada César", "Sopa de tortilla"] },
-];
+import TableCard from "../../components/card/TableCard";
+import { getPedidos } from "../../services/api";
+import type { Pedido } from "../../services/api";
 
 const Cocina: React.FC = () => {
   const theme = useTheme();
+
+  const [pedidos, setPedidos] = useState<Pedido[]>([]);
+
+  useEffect(() => {
+    getPedidos().then(setPedidos);
+  }, []);
+
+
   return (
     <Box sx={{ p: 5, backgroundColor: theme.palette.background.default, top: 64 }}>
       <Typography variant="h4" gutterBottom>
@@ -29,27 +28,10 @@ const Cocina: React.FC = () => {
         justifyContent="flex-start"
       >
         {pedidos.map((pedido) => (
-          <Box key={pedido.id} sx={{ width: 300 }}>
-            <Card elevation={4}>
-              <CardContent>
-                <Typography variant="h6" color="primary">
-                  Mesa {pedido.mesa}
-                </Typography>
-                <List>
-                  {pedido.items.map((item, index) => (
-                    <ListItem key={index} sx={{ pl: 0 }}>
-                      • {item}
-                    </ListItem>
-                  ))}
-                </List>
-              </CardContent>
-              <CardActions>
-                <Button variant="contained" color="success" fullWidth>
-                  Marcar como listo
-                </Button>
-              </CardActions>
-            </Card>
-          </Box>
+          <TableCard
+            key={pedido.mesa}
+            mesa={pedido.mesa}
+            pedidos={pedido.pedido} />
         ))}
       </Stack>
     </Box>

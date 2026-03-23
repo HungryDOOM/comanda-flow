@@ -1,1 +1,1 @@
-export type Categoria = "platillos" | "bebidas" | "botanas";
+export type Categoria = "Platillos" | "Bebidas" | "Botanas";

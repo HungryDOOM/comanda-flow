@@ -1,59 +1,73 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../../components/card/ProductCard";
 import { Box, Stack } from "@mui/system";
 import NavCategories from "../../components/NavBar/NavCategories";
 import { useTheme } from "@mui/material/styles";
 import type { Categoria } from "../../components/types/types";
 import { Button, Typography } from "@mui/material";
+import { getProductos } from "../../services/api";
+import type { Producto } from "../../services/api";
+import { sendPedido } from "../../services/api";
 
 const Mesero: React.FC = () => {
-  const [categoria, setCategoria] = useState<Categoria>("platillos");
+  const [productos, SetProductos] = useState<Producto[]>([]);
+  const [categoria, setCategoria] = useState<Categoria>("Platillos");
   const [cantidades, setCantidades] = useState<Record<number, number>>({});
+  const [pedido, setPedido] = useState<string[]>([]);
+  const [mesaSeleccionada, setMesaSeleccionada] = useState<number>(1);
+  const theme = useTheme();
 
   const actualizarCantidad = (id: number, nuevaCantidad: number) => {
     setCantidades((prev) => ({ ...prev, [id]: nuevaCantidad }));
   };
 
-  const opciones = {
-    platillos: [
-      { id: 1, nombre: "Tacos al Pastor", precio: 50 },
-      { id: 2, nombre: "Hamburguesa", precio: 80 },
-      { id: 3, nombre: "Ensalada César", precio: 60 },
-      { id: 4, nombre: "Sopa de Tortilla", precio: 40 },
-      { id: 5, nombre: "Pizza Pepperoni", precio: 90 },
-      { id: 6, nombre: "Pasta Alfredo", precio: 70 },
-      { id: 7, nombre: "Pollo a la Parrilla", precio: 85 },
-      { id: 8, nombre: "Filete de Res", precio: 120 },
-      { id: 9, nombre: "Camarones al Ajillo", precio: 110 },
-    ],
-    bebidas: [
-      { id: 1, nombre: "Agua de Horchata", precio: 20 },
-      { id: 2, nombre: "Refresco", precio: 25 },
-      { id: 3, nombre: "Cerveza", precio: 60 },
-    ],
-    botanas: [
-      { id: 1, nombre: "Papas Fritas", precio: 30 },
-      { id: 2, nombre: "Nachos", precio: 45 },
-      { id: 3, nombre: "Alitas", precio: 80 },
-    ],
-  };
-
-  const [pedido, setPedido] = useState<string[]>([]);
-
   const solicitarPedido = () => {
-    const seleccionados = opciones[categoria]
+    const seleccionados = productos
     .filter((item) => (cantidades[item.id] || 0) > 0)
-    .map((item) => `${cantidades[item.id]}x ${item.nombre}`);
+    .map((item) => {
+      const precio = cantidades[item.id] * item.precio;
+      return `${cantidades[item.id]}x ${item.nombre} = ${precio} MXN`;
+    });
     setPedido(seleccionados);
+    sendPedido(mesaSeleccionada, seleccionados, 150).then((response) => {
+      console.log("Pedido enviado:", response);
+    });
   };
 
-  const theme = useTheme();
+  useEffect(() => {
+    getProductos().then(SetProductos);
+  }, []);
+
+  const mesas = [
+    { value: 1, label: "Mesa 1" },
+    { value: 2, label: "Mesa 2" },
+    { value: 3, label: "Mesa 3" },
+    { value: 4, label: "Mesa 4" },
+    { value: 5, label: "Mesa 5" },
+    { value: 6, label: "Mesa 6" },
+    { value: 7, label: "Mesa 7" },
+    { value: 8, label: "Mesa 8" },
+    { value: 9, label: "Mesa 9" },
+    { value: 10, label: "Mesa 10" },
+  ];
+
   return (
-    <Box sx={{ p: 5, backgroundColor: theme.palette.background.default, top: 64, width: "90vw" }}>
-      <Button variant="contained" color="success" fullWidth onClick={solicitarPedido}>Solicitar pedido</Button>
+    <Box sx={{ p: 5, backgroundColor: theme.palette.background.default, top: 64, width: "90vw"}}>
+      <Stack spacing={2} alignItems={"center"} direction="column">
+        <select value={mesaSeleccionada} onChange={(e) => setMesaSeleccionada(Number(e.target.value))}>
+          {mesas.map((mesa) => (
+            <option key={mesa.value} value={mesa.value}>
+              {mesa.label}
+            </option>
+          ))}
+        </select>
+        <Button variant="contained" color="primary" sx={{ width: "10vw" }} onClick={solicitarPedido}>Solicitar pedido</Button>
+      </Stack>
       <NavCategories setCategoria={setCategoria} />
-      <Stack direction="row" spacing={2} flexWrap="wrap" justifyContent={"space-around"}>
-        {opciones[categoria].map((item) => (
+      <Stack direction="row" spacing={2} flexWrap="wrap" justifyContent={"space-around"} padding={2}>
+        {productos
+        .filter((item) => item.tipo === categoria)
+        .map((item: any) => (
           <ProductCard
             key={item.id}
             nombre={item.nombre}

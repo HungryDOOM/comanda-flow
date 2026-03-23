@@ -14,7 +14,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ nombre, precio, cantidad, set
       <Card elevation={4}>
         <CardContent>
           <Typography variant="h5">{nombre}</Typography>
-          <Typography variant="body2">Precio: ${precio}</Typography>
+          <Typography variant="body2">Precio: {precio}</Typography>
           <Typography variant="body2">Cantidad: {cantidad}</Typography>
         </CardContent>
         <CardActions>

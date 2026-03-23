@@ -23,9 +23,9 @@ const NavCategories: React.FC<NavCategoriesProps> = ({ setCategoria }) => {
         }}
       >
         <Stack spacing={2}>
-          <Button onClick={() => setCategoria("platillos")}>Platillos</Button>
-          <Button onClick={() => setCategoria("bebidas")}>Bebidas</Button>
-          <Button onClick={() => setCategoria("botanas")}>Botanas</Button>
+          <Button onClick={() => setCategoria("Platillos")}>Platillos</Button>
+          <Button onClick={() => setCategoria("Bebidas")}>Bebidas</Button>
+          <Button onClick={() => setCategoria("Botanas")}>Botanas</Button>
         </Stack>
       </Box>
     </Box>
