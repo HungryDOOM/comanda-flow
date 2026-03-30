@@ -1,4 +1,4 @@
-import { Card, CardContent, CardActions, Box, Typography, Button } from "@mui/material";
+import { Card, CardContent, CardActions, Box, Typography, Button, CardMedia } from "@mui/material";
 import React from "react";
 
 interface ProductCardProps {
@@ -13,6 +13,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ nombre, precio, cantidad, set
     <Box sx={{ width: 300 }}>
       <Card elevation={4}>
         <CardContent>
+          <CardMedia
+            component="img"
+            height="256"
+            image={`/src/assets/menu/${nombre}.jpg`}
+            alt={nombre}
+          />
           <Typography variant="h5">{nombre}</Typography>
           <Typography variant="body2">Precio: {precio}</Typography>
           <Typography variant="body2">Cantidad: {cantidad}</Typography>
