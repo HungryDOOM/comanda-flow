@@ -16,7 +16,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ nombre, precio, cantidad, set
           <CardMedia
             component="img"
             height="256"
-            image={`/src/assets/menu/${nombre}.jpg`}
+            image={`/menu/${nombre}.jpg`}
             alt={nombre}
           />
           <Typography variant="h5">{nombre}</Typography>
