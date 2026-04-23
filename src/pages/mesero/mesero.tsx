@@ -28,8 +28,13 @@ const Mesero: React.FC = () => {
       const precio = cantidades[item.id] * item.precio;
       return `${cantidades[item.id]}x ${item.nombre} = ${precio} MXN`;
     });
+    const now = new Date();
+    const date = String(now.getFullYear()) + String(now.getMonth() + 1).padStart(2, "0") + String(now.getDate()).padStart(2, "0");
+    const time = String(now.getHours()) + String(now.getMinutes()).padStart(2, "0") + String(now.getSeconds()).padStart(2, "0");
+    const comanda = `COM-${date}-${time}`
+    console.log(comanda);
     setPedido(seleccionados);
-    sendPedido(mesaSeleccionada, seleccionados, 150).then((response) => {
+    sendPedido(mesaSeleccionada, seleccionados, 150 , comanda).then((response) => {
       console.log("Pedido enviado:", response);
     });
   };
@@ -74,6 +79,7 @@ const Mesero: React.FC = () => {
             precio={item.precio}
             cantidad={cantidades[item.id] || 0}
             setCantidad={(nuevaCantidad) => actualizarCantidad(item.id, nuevaCantidad)}
+            img_url={item.img_url}
           />
         ))}
       </Stack>

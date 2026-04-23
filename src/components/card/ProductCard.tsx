@@ -6,9 +6,10 @@ interface ProductCardProps {
   precio: number;
   cantidad: number;
   setCantidad: (n: number) => void;
+  img_url: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ nombre, precio, cantidad, setCantidad }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ nombre, precio, cantidad, setCantidad, img_url }) => {
   return (
     <Box sx={{ width: 300 }}>
       <Card elevation={4}>
@@ -16,7 +17,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ nombre, precio, cantidad, set
           <CardMedia
             component="img"
             height="256"
-            image={`/menu/${nombre}.jpg`}
+            src={img_url}
             alt={nombre}
           />
           <Typography variant="h5">{nombre}</Typography>

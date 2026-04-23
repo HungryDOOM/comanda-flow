@@ -31,7 +31,8 @@ const Cocina: React.FC = () => {
           <TableCard
             key={pedido.mesa}
             mesa={pedido.mesa}
-            pedidos={pedido.pedido} />
+            pedidos={pedido.pedido}
+            comanda={pedido.comanda} />
         ))}
       </Stack>
     </Box>
