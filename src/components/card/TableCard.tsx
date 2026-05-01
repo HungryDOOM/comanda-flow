@@ -3,24 +3,28 @@ import React from "react";
 
 interface ProductCardProps {
   mesa: number;
-  pedidos: string[];
+  pedidos: string;
+  comanda: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ mesa, pedidos }) => {
+const TableCard: React.FC<ProductCardProps> = ({ mesa, pedidos, comanda }) => {
+  const pedidosArray: string[] = JSON.parse(pedidos);
   return (
     <Box sx={{ width: 300 }}>
       <Card elevation={4}>
         <CardContent>
-          <Typography variant="h5">Mesa {mesa}</Typography>
-          <Typography variant="body2">Pedidos:
-            {pedidos.map((pedido, index) => (
+          <Typography variant="h5">{comanda}</Typography>
+          <Typography variant="h6">Mesa {mesa}</Typography>
+          <Typography variant="body2">Pedidos:</Typography>
+          <ul style={{ listStyleType: "none" }} >
+            {pedidosArray.map((pedido, index) => (
               <li key={index}>{pedido}</li>
             ))}
-          </Typography>
+          </ul>
         </CardContent>
       </Card>
     </Box>
   );
 };
 
-export default ProductCard;
+export default TableCard;
