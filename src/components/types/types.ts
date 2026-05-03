@@ -15,6 +15,7 @@ export interface Pedido {
   pedido: string;
   precio_total: number;
   comanda: string;
+  estado: "nuevo" | "preparando" | "listo" | "pagado";
 }
 
 export interface PedidoLocal extends Pedido {

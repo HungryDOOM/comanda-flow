@@ -26,12 +26,12 @@ const Cocina: React.FC = () => {
 
   const handleMarcarPreparando = (comanda: string) => {
     updateStatus(comanda, "preparando");
-    setSnackbar({ open: true, message: "🔥 Orden en preparación" });
+    setSnackbar({ open: true, message: "Orden en preparación" });
   };
 
   const handleMarcarListo = (comanda: string, mesa: number) => {
     updateStatus(comanda, "listo");
-    setSnackbar({ open: true, message: `✅ Mesa ${mesa} lista para servir` });
+    setSnackbar({ open: true, message: `Mesa ${mesa} lista para servir` });
   };
 
   const renderCard = (pedido: (typeof pedidosActivos)[0]) => {
@@ -65,7 +65,7 @@ const Cocina: React.FC = () => {
           {pedido.status === "nuevo" && (
             <Button fullWidth variant="contained" color="warning"
               onClick={() => handleMarcarPreparando(pedido.comanda)}>
-              Preparando
+              Preparar
             </Button>
           )}
           {pedido.status === "preparando" && (

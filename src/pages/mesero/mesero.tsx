@@ -30,8 +30,13 @@ const Mesero: React.FC = () => {
   const [loadingProductos, setLoadingProductos] = useState(true);
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" as "success" | "error" });
   const theme = useTheme();
-  const { refreshPedidos } = useOrders();
+  const { refreshPedidos, pedidos } = useOrders();
 
+  const mesasOcupadas = new Set(
+    pedidos
+      .filter((p) => p.estado !== "pagado")
+      .map((p) => p.mesa)
+  );
   const actualizarCantidad = (id: number, nuevaCantidad: number) => {
     setCantidades((prev) => ({ ...prev, [id]: Math.max(0, nuevaCantidad) }));
   };
@@ -60,7 +65,7 @@ const Mesero: React.FC = () => {
       const date = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,"0")}${String(now.getDate()).padStart(2,"0")}`;
       const time = `${String(now.getHours()).padStart(2,"0")}${String(now.getMinutes()).padStart(2,"0")}${String(now.getSeconds()).padStart(2,"0")}`;
       const comanda = `COM-${date}-${time}`;
-      await sendPedido(mesaSeleccionada, lineas, precioTotal, comanda);
+      await sendPedido(mesaSeleccionada, lineas, precioTotal, comanda, "nuevo");
       await refreshPedidos();
       limpiarCarrito();
       setSnackbar({ open: true, message: `Pedido enviado para Mesa ${mesaSeleccionada}`, severity: "success" });
@@ -79,6 +84,14 @@ const Mesero: React.FC = () => {
       .finally(() => setLoadingProductos(false));
   }, []);
 
+  useEffect(() => {
+    if (mesasOcupadas.has(mesaSeleccionada)) {
+      const libreIndex = Array.from({ length: TOTAL_MESAS }, (_, i) => i + 1)
+        .find((m) => !mesasOcupadas.has(m));
+      if (libreIndex) setMesaSeleccionada(libreIndex);
+    }
+  }, [pedidos]);
+
   return (
     <Box sx={{ backgroundColor: theme.palette.background.default, minHeight: "100vh", pb: 4 }}>
       <Box sx={{ px: 3, pt: 2, pb: 1 }} width="70vw">
@@ -86,10 +99,19 @@ const Mesero: React.FC = () => {
           <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" gap={1}>
             <FormControl size="small" sx={{ minWidth: 160 }}>
               <InputLabel>Mesa</InputLabel>
-              <Select value={mesaSeleccionada} label="Mesa" onChange={(e) => setMesaSeleccionada(Number(e.target.value))}>
-                {Array.from({ length: TOTAL_MESAS }, (_, i) => i + 1).map((m) => (
-                  <MenuItem key={m} value={m}>Mesa {m}</MenuItem>
-                ))}
+              <Select
+                value={mesaSeleccionada}
+                label="Mesa"
+                onChange={(e) => setMesaSeleccionada(Number(e.target.value))}
+              >
+                {Array.from({ length: TOTAL_MESAS }, (_, i) => i + 1).map((m) => {
+                  const ocupada = mesasOcupadas.has(m);
+                  return (
+                    <MenuItem key={m} value={m} disabled={ocupada}>
+                      Mesa {m} {ocupada ? "Ocupada" : "Libre"}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
             {precioTotal > 0 && (

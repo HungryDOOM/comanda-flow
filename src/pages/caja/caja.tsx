@@ -34,7 +34,7 @@ const Caja: React.FC = () => {
   const handleCobrar = (comanda: string, mesa: number) => {
     updateStatus(comanda, "pagado");
     setTicketDialog(null);
-    setSnackbar({ open: true, message: `✅ Mesa ${mesa} cobrada y liberada` });
+    setSnackbar({ open: true, message: `Mesa ${mesa} cobrada y liberada` });
   };
 
   const handlePrint = () => {
